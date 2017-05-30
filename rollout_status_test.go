@@ -26,7 +26,6 @@ import (
 	"fmt"
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	restclient "k8s.io/client-go/rest"
@@ -120,12 +119,11 @@ func TestRunHistory(t *testing.T) {
 
 	f, tf, _, ns := cmdtesting.NewAPIFactory()
 	_, _, codec, _ := cmdtesting.NewTestFactory()
-	codec = unstructured.UnstructuredJSONScheme
-	unstructured.
-		tf.Printer = &testPrinter{}
+	//codec = unstructured.UnstructuredJSONScheme
+	tf.Printer = &testPrinter{}
 	tf.Namespace = "default"
 
-	tf.ClientConfig = &restclient.Config{ContentConfig: restclient.ContentConfig{GroupVersion: &schema.GroupVersion{Group: "extensions/v1beta1", Version: "v1beta1"}}}
+	tf.ClientConfig = &restclient.Config{ContentConfig: restclient.ContentConfig{GroupVersion: &schema.GroupVersion{Group: "extensions", Version: "v1beta1"}}}
 	buf := bytes.NewBuffer([]byte{})
 	//tf.UnstructuredClient = &fake.RESTClient{
 	tf.Client = &fake.RESTClient{
@@ -151,4 +149,3 @@ func TestRunHistory(t *testing.T) {
 		t.Errorf("expected output: %s, but got: %s", expectedOutput, buf.String())
 	}
 }
-
