@@ -25,11 +25,13 @@ import (
 
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/client-go/pkg/api/v1"
-	extensionsv1beta1 "k8s.io/client-go/pkg/apis/extensions/v1beta1"
 	"k8s.io/client-go/rest/fake"
 	"k8s.io/kubernetes/pkg/api"
+	"k8s.io/kubernetes/pkg/api/v1"
+	extensionsv1beta1 "k8s.io/kubernetes/pkg/apis/extensions/v1beta1"
+	//"k8s.io/kubernetes/pkg/apis/extensions/v1beta1"
 	cmdtesting "k8s.io/kubernetes/pkg/kubectl/cmd/testing"
+	//appsv1beta1 "k8s.io/kubernetes/pkg/apis/apps/v1beta1"
 )
 
 func testv1beta1Data() *extensionsv1beta1.Deployment {
@@ -65,6 +67,8 @@ func TestV1beta1GetObjects(t *testing.T) {
 	deployment := testv1beta1Data()
 
 	f, tf, codec, _ := cmdtesting.NewAPIFactory()
+	//_, _, codec, _ = cmdtesting.NewTestFactory()
+
 	tf.Printer = &testPrinter{}
 	tf.UnstructuredClient = &fake.RESTClient{
 		APIRegistry:          api.Registry,
@@ -87,4 +91,5 @@ func TestV1beta1GetObjects(t *testing.T) {
 		t.Errorf("unexpected empty output")
 	}
 }
+
 
